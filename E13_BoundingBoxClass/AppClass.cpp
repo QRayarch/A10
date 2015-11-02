@@ -1,7 +1,12 @@
 #include "AppClass.h"
+
+BoundingObjectManager* BoundingObjectManager::instance = nullptr;
+
 void AppClass::InitWindow(String a_sWindowName)
 {
 	super::InitWindow("MyBoundingSphereClass example"); // Window Name
+
+	BoundingObjectManager* boundingObjMngr = BoundingObjectManager::GetInstance();
 
 	// Set the clear color based on Microsoft's CornflowerBlue (default in XNA)
 	//if this line is in Init Application it will depend on the .cfg file, if it
@@ -102,4 +107,5 @@ void AppClass::Release(void)
 	SafeDelete(m_pBB1);
 	SafeDelete(m_pBB2);
 	SafeDelete(reAlign);
+	BoundingObjectManager::Release();
 }
