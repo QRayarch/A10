@@ -37,6 +37,7 @@ BoundingSphere::BoundingSphere(std::vector<vector3> listOfVertex){
 bool BoundingSphere::IsColliding(BoundingSphere* pOther){
 	return glm::distance(pOther->m_v3Center, this->m_v3Center) <= pOther->m_fRadius + this->m_fRadius;
 }
-void BoundingSphere::UpdatePosition(vector3 v3Input){
-	m_v3Center += v3Input;
-}
+
+void BoundingSphere::SetModelMatrix(matrix4 a_m4ToWorld){ m_m4ToWorld = a_m4ToWorld; }
+vector3 BoundingSphere::GetCenterGlobal(void){ return vector3(m_m4ToWorld * vector4(m_v3Center, 1.0f)); }
+float BoundingSphere::GetRadius(){ return m_fRadius; }

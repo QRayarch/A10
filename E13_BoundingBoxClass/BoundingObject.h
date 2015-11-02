@@ -2,6 +2,7 @@
 
 #include "BoundingSphere.h"
 #include "MyBoundingBoxClass.h"
+#include "RE\ReEngAppClass.h"
 
 
 class BoundingObject
@@ -19,5 +20,10 @@ public:
 
 	void Draw();
 	bool IsColliding(BoundingObject*);
+	bool GetVisibility();
+	void SetVisibility(bool);
+	vector3 GetGlobalCenter();
+	//vector3 GetMin();
+	//vector3 GetMax();
 };
 
