@@ -164,3 +164,6 @@ bool MyBoundingBoxClass::IsColliding(MyBoundingBoxClass* const a_pOther)
 
 	return bColliding;
 }
+
+vector3 MyBoundingBoxClass::GetMin() { return m_v3Min;  }
+vector3 MyBoundingBoxClass::GetMax() { return m_v3Max; }

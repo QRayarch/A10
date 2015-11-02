@@ -23,7 +23,10 @@ public:
 	bool GetVisibility();
 	void SetVisibility(bool);
 	vector3 GetGlobalCenter();
-	//vector3 GetMin();
-	//vector3 GetMax();
+	vector3 GetMin();
+	vector3 GetMax();
+	matrix4 GetModelMatrix();
+	void SetModelMatrix(matrix4);
+	void SetColor(vector3);
 };
 

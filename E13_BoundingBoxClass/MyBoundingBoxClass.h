@@ -108,6 +108,9 @@ public:
 
 	void RealignBox(MyBoundingBoxClass* const);
 
+	vector3 GetMin();
+	vector3 GetMax();
+
 private:
 	/*
 	Method: Release

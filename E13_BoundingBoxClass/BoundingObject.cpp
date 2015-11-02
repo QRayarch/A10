@@ -52,3 +52,20 @@ void BoundingObject::SetVisibility(bool visible)
 }
 
 vector3 BoundingObject::GetGlobalCenter() { return sphere->GetCenterGlobal(); }
+vector3 BoundingObject::GetMin() { return realign->GetMin(); }
+vector3 BoundingObject::GetMax() { return realign->GetMax(); }
+
+matrix4 BoundingObject::GetModelMatrix() { return realign->GetModelMatrix(); }
+
+void BoundingObject::SetModelMatrix(matrix4 model)
+{
+	sphere->SetModelMatrix(model);
+	ob->SetModelMatrix(model);
+	realign->SetModelMatrix(model);
+	realign->RealignBox(ob);
+}
+
+void BoundingObject::SetColor(vector3 newColor)
+{
+	color = newColor;
+}
