@@ -28,3 +28,18 @@ void BoundingObjectManager::Release()
 		instance = nullptr;
 	}
 }
+
+int BoundingObjectManager::GetBoundingObjNumber()
+{
+	return boundingObjList.size();
+}
+
+void BoundingObjectManager::SetColor(int bo, vector3 color)
+{
+	boundingObjList[bo].SetColor(color);
+}
+
+void BoundingObjectManager::SwitchBoxVisibility(int bo, bool vis)
+{
+	boundingObjList[bo].SetAABBVisibility(vis);
+}

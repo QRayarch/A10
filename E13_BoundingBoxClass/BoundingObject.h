@@ -22,6 +22,7 @@ public:
 	bool IsColliding(BoundingObject*);
 	bool GetVisibility();
 	void SetVisibility(bool);
+	void SetAABBVisibility(bool);
 	vector3 GetGlobalCenter();
 	vector3 GetMin();
 	vector3 GetMax();
