@@ -48,3 +48,16 @@ void BoundingObjectManager::SetVisibility(int bo, bool visible)
 {
 	boundingObjList[bo].SetVisibility(visible);
 }
+
+void BoundingObjectManager::RenderSetting(bool visible)
+{
+	for (int i = 0; i < boundingObjList.size(); i++)
+	{
+		boundingObjList[i].SetVisibility(visible);
+	}
+}
+void BoundingObjectManager::RenderSetting(bool visible, int bo)
+{
+	boundingObjList[bo].SetVisibility(visible);
+}
+

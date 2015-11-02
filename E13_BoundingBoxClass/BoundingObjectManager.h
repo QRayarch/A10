@@ -18,7 +18,8 @@ public:
 	void SwitchBoxVisibility(int, bool);
 	int GetBoundingObjNumber();
 	void SetColor(int, vector3);
-	void RenderSetting();
+	void RenderSetting(bool);
+	void RenderSetting(bool, int);
 	void CheckCollisions();
 
 };
