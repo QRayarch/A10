@@ -112,7 +112,7 @@ public:
 	vector3 GetMin();
 	vector3 GetMax();
 
-	bool SetVisibility(bool);
+	void SetVisibility(bool);
 
 private:
 	/*

@@ -43,3 +43,8 @@ void BoundingObjectManager::SwitchBoxVisibility(int bo, bool vis)
 {
 	boundingObjList[bo].SetAABBVisibility(vis);
 }
+
+void BoundingObjectManager::SetVisibility(int bo, bool visible)
+{
+	boundingObjList[bo].SetVisibility(visible);
+}
