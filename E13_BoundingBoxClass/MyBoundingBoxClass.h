@@ -17,6 +17,7 @@ class MyBoundingBoxClass
 	vector3 m_v3Max = vector3(0.0f); //Will store the maximum vector of the box Class
 	vector3 m_v3HalfWidth = vector3(0.0f);//Will store half the size of all sides
 
+	bool isVisible;
 public:
 	/*
 	Method: MyBoundingBoxClass
@@ -110,6 +111,8 @@ public:
 
 	vector3 GetMin();
 	vector3 GetMax();
+
+	bool SetVisibility(bool);
 
 private:
 	/*

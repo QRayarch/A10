@@ -3,6 +3,7 @@
 void MyBoundingBoxClass::Init(void)
 {
 	m_m4ToWorld = IDENTITY_M4;
+	isVisible = true;
 
 	m_v3Center = vector3(0.0f);
 	m_v3Min = vector3(0.0f);
@@ -37,6 +38,7 @@ MyBoundingBoxClass::MyBoundingBoxClass(std::vector<vector3> a_lVectorList)
 MyBoundingBoxClass::MyBoundingBoxClass(MyBoundingBoxClass const& other)
 {
 	m_m4ToWorld = other.m_m4ToWorld;
+	isVisible = other.isVisible;
 
 	m_v3Center = other.m_v3Center;
 	m_v3Min = other.m_v3Min;
@@ -59,6 +61,8 @@ MyBoundingBoxClass::~MyBoundingBoxClass(){ Release(); };
 
 void MyBoundingBoxClass::RealignBox(MyBoundingBoxClass* const box) {
 	std::vector<vector3> vertices;
+
+	isVisible = true;
 
 	vector3 fullWidth = box->GetHalfWidth();
 	fullWidth.x *= 2;
@@ -167,3 +171,7 @@ bool MyBoundingBoxClass::IsColliding(MyBoundingBoxClass* const a_pOther)
 
 vector3 MyBoundingBoxClass::GetMin() { return m_v3Min;  }
 vector3 MyBoundingBoxClass::GetMax() { return m_v3Max; }
+
+void MyBoundingBoxClass::SetVisibility(bool newVisibility) {
+	isVisible = newVisibility;
+}

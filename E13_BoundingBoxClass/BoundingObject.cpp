@@ -51,6 +51,10 @@ void BoundingObject::SetVisibility(bool visible)
 	isVisible = visible;
 }
 
+void BoundingObject::SetAABBVisibility(bool newVisibility) {
+	realign->SetVisibility(newVisibility);
+}
+
 vector3 BoundingObject::GetGlobalCenter() { return sphere->GetCenterGlobal(); }
 vector3 BoundingObject::GetMin() { return realign->GetMin(); }
 vector3 BoundingObject::GetMax() { return realign->GetMax(); }
