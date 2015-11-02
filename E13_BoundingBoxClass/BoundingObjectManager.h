@@ -13,10 +13,10 @@ public:
 	static BoundingObjectManager* instance;
 	static BoundingObjectManager* GetInstance();
 	static void Release();
-	void AddBox(std::vector<vector3> verticies);
+	void AddBox(std::vector<vector3>);
 	void SwitchBoxVisibility();
-	void GetBoundingObjNumber();
-	void SetColor();
+	int GetBoundingObjNumber();
+	void SetColor(int, vector3);
 	void SetVisibility();
 	void RenderSetting();
 	void CheckCollisions();
