@@ -15,6 +15,11 @@ BoundingObjectManager* BoundingObjectManager::GetInstance()
 	return instance;
 }
 
+void BoundingObjectManager::AddBox(std::vector<vector3> verticies)
+{
+	boundingObjList.push_back(BoundingObject(verticies));
+}
+
 void BoundingObjectManager::Release()
 {
 	if (instance != nullptr)
@@ -22,8 +27,4 @@ void BoundingObjectManager::Release()
 		delete instance;
 		instance = nullptr;
 	}
-}
-
-BoundingObjectManager::~BoundingObjectManager()
-{
 }
