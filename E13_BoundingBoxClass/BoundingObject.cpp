@@ -34,7 +34,7 @@ void BoundingObject::Draw() {
 	if (isVisible)
 	{
 		MeshManagerSingleton::GetInstance()->AddCubeToQueue(glm::translate(realign->GetCenterGlobal()) * glm::scale(realign->GetHalfWidth() * 2.0f), color, WIRE);
-		MeshManagerSingleton::GetInstance()->AddCubeToQueue(glm::translate(ob->GetCenterGlobal()) * glm::scale(ob->GetHalfWidth() * 2.0f), color, WIRE);
+		//MeshManagerSingleton::GetInstance()->AddCubeToQueue(glm::translate(ob->GetCenterGlobal()) * glm::scale(ob->GetHalfWidth() * 2.0f), color, WIRE);
 		MeshManagerSingleton::GetInstance()->AddSphereToQueue(glm::translate(sphere->GetCenterGlobal()) * glm::scale(vector3(sphere->GetRadius() * 2.0f)), color, WIRE);
 	}
 }
@@ -67,6 +67,9 @@ void BoundingObject::SetModelMatrix(matrix4 model)
 {
 	sphere->SetModelMatrix(model);
 	ob->SetModelMatrix(model);
+
+	//Set new Radius 
+	sphere->SetRadius(glm::distance(realign->GetMax(), realign->GetCenterLocal()));
 }
 
 void BoundingObject::SetColor(vector3 newColor)

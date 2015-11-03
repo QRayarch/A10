@@ -18,6 +18,7 @@ public:
 	void SetModelMatrix(matrix4 a_m4ToWorld);
 	vector3 GetCenterGlobal(void);
 	float GetRadius();
+	void SetRadius(float);
 };
 
 #endif //__BSPHERE_H_

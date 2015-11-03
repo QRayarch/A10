@@ -43,3 +43,6 @@ bool BoundingSphere::IsColliding(BoundingSphere* pOther){
 void BoundingSphere::SetModelMatrix(matrix4 a_m4ToWorld){ m_m4ToWorld = a_m4ToWorld; }
 vector3 BoundingSphere::GetCenterGlobal(void){ return vector3(m_m4ToWorld * vector4(m_v3Center, 1.0f)); }
 float BoundingSphere::GetRadius(){ return m_fRadius; }
+void BoundingSphere::SetRadius(float radius) {
+	m_fRadius = radius;
+}
