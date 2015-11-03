@@ -3,6 +3,7 @@
 
 BoundingObjectManager::BoundingObjectManager()
 {
+	boundingObjList = std::vector<BoundingObject*>();
 }
 
 BoundingObjectManager* BoundingObjectManager::GetInstance()
@@ -36,16 +37,19 @@ int BoundingObjectManager::GetBoundingObjNumber()
 
 void BoundingObjectManager::SetColor(int bo, vector3 color)
 {
+	if (!IsInBounds(bo)) return;
 	boundingObjList[bo]->SetColor(color);
 }
 
 void BoundingObjectManager::SwitchBoxVisibility(int bo, bool vis)
 {
+	if (!IsInBounds(bo)) return;
 	boundingObjList[bo]->SetAABBVisibility(vis);
 }
 
 void BoundingObjectManager::SetVisibility(int bo, bool visible)
 {
+	if (!IsInBounds(bo)) return;
 	boundingObjList[bo]->SetVisibility(visible);
 }
 
@@ -58,6 +62,7 @@ void BoundingObjectManager::RenderSetting(bool visible)
 }
 void BoundingObjectManager::RenderSetting(bool visible, int bo)
 {
+	if (!IsInBounds(bo)) return;
 	boundingObjList[bo]->SetVisibility(visible);
 }
 void BoundingObjectManager::CheckCollisions()
@@ -81,4 +86,22 @@ void BoundingObjectManager::CheckCollisions()
 			}
 		}
 	}
+}
+void BoundingObjectManager::Draw()
+{
+	for (int i = 0; i < boundingObjList.size(); i++)
+	{
+		boundingObjList[i]->Draw();
+	}
+}
+
+
+void BoundingObjectManager::SetModelMatrix(int bo, matrix4 model)
+{
+	if (!IsInBounds(bo)) return;
+	boundingObjList[bo]->SetModelMatrix(model);
+}
+
+bool BoundingObjectManager::IsInBounds(int bo) {
+	return bo > -1 && bo < boundingObjList.size();
 }

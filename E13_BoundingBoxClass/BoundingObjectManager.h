@@ -21,6 +21,9 @@ public:
 	void RenderSetting(bool);
 	void RenderSetting(bool, int);
 	void CheckCollisions();
+	void Draw();
+	void SetModelMatrix(int, matrix4);
 
+	bool IsInBounds(int);
 };
 

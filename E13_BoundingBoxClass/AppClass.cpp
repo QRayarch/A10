@@ -24,9 +24,10 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Minecraft\\MC_Steve.obj", "Steve");
 	m_pMeshMngr->LoadModel("Minecraft\\MC_Creeper.obj", "Creeper");
 
-	m_pBB1 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Steve"));
-	m_pBB2 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Creeper"));
-	reAlign = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Steve"));
+	std::cout << "Dsgfee " << m_pMeshMngr->GetVertexList("Steve").size() << std::endl;
+
+	BoundingObjectManager::GetInstance()->AddBox(m_pMeshMngr->GetVertexList("Steve"));
+	BoundingObjectManager::GetInstance()->AddBox(m_pMeshMngr->GetVertexList("Creeper"));
 }
 
 void AppClass::Update(void)
@@ -41,26 +42,22 @@ void AppClass::Update(void)
 	if (m_bFPC == true)
 		CameraRotation();
 
+	BoundingObjectManager::GetInstance()->CheckCollisions();
+
 	ArcBall();
 
 	//Set the model matrices for both objects and Bounding Spheres
 	m_pMeshMngr->SetModelMatrix(glm::translate(m_v3O1) * ToMatrix4(m_qArcBall), "Steve");
 	m_pMeshMngr->SetModelMatrix(glm::translate(m_v3O2), "Creeper");
 
-	m_pBB1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
-	reAlign->RealignBox(m_pBB1);
-	m_pBB2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Creeper"));
+	BoundingObjectManager::GetInstance()->SetModelMatrix(0, m_pMeshMngr->GetModelMatrix("Steve"));
+	BoundingObjectManager::GetInstance()->SetModelMatrix(1, m_pMeshMngr->GetModelMatrix("Creeper"));
+
+	//m_pBB1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
+	//reAlign->RealignBox(m_pBB1);
+	//m_pBB2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Creeper"));
 
 	//Add a representation of the Spheres to the render list
-	vector3 v3Color = REWHITE;
-	if (reAlign->IsColliding(m_pBB2))
-		v3Color = RERED;
-
-	m_pMeshMngr->AddCubeToQueue(glm::translate(reAlign->GetCenterGlobal()) * glm::scale(reAlign->GetHalfWidth() * 2.0f), v3Color, WIRE);
-	m_pMeshMngr->AddCubeToQueue(glm::translate(m_pBB2->GetCenterGlobal()) * glm::scale(m_pBB2->GetHalfWidth() * 2.0f), v3Color, WIRE);
-
-	m_pMeshMngr->AddCubeToQueue(m_pBB1->GetModelMatrix() * glm::translate(IDENTITY_M4, m_pBB1->GetCenterLocal()) * glm::scale(m_pBB1->GetHalfWidth() * 2.0f), v3Color, WIRE);
-	m_pMeshMngr->AddCubeToQueue(m_pBB2->GetModelMatrix() * glm::translate(IDENTITY_M4, m_pBB2->GetCenterLocal()) * glm::scale(m_pBB2->GetHalfWidth() * 2.0f), v3Color, WIRE);
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
@@ -96,6 +93,8 @@ void AppClass::Display(void)
 		break;
 	}
 	
+	BoundingObjectManager::GetInstance()->Draw();
+
 	m_pMeshMngr->Render(); //renders the render list
 
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
@@ -104,8 +103,5 @@ void AppClass::Display(void)
 void AppClass::Release(void)
 {
 	super::Release(); //release the memory of the inherited fields
-	SafeDelete(m_pBB1);
-	SafeDelete(m_pBB2);
-	SafeDelete(reAlign);
 	BoundingObjectManager::Release();
 }

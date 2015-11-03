@@ -1,6 +1,8 @@
 #include "BoundingSphere.h"
 
 BoundingSphere::BoundingSphere(std::vector<vector3> listOfVertex){
+	m_m4ToWorld = IDENTITY_M4;
+
 	vector3 vMin, vMax;
 	
 	vMin = vMax = listOfVertex[0];
