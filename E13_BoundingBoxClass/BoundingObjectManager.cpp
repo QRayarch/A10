@@ -17,7 +17,7 @@ BoundingObjectManager* BoundingObjectManager::GetInstance()
 
 void BoundingObjectManager::AddBox(std::vector<vector3> verticies)
 {
-	boundingObjList.push_back(BoundingObject(verticies));
+	boundingObjList.push_back(new BoundingObject(verticies));
 }
 
 void BoundingObjectManager::Release()
@@ -36,28 +36,49 @@ int BoundingObjectManager::GetBoundingObjNumber()
 
 void BoundingObjectManager::SetColor(int bo, vector3 color)
 {
-	boundingObjList[bo].SetColor(color);
+	boundingObjList[bo]->SetColor(color);
 }
 
 void BoundingObjectManager::SwitchBoxVisibility(int bo, bool vis)
 {
-	boundingObjList[bo].SetAABBVisibility(vis);
+	boundingObjList[bo]->SetAABBVisibility(vis);
 }
 
 void BoundingObjectManager::SetVisibility(int bo, bool visible)
 {
-	boundingObjList[bo].SetVisibility(visible);
+	boundingObjList[bo]->SetVisibility(visible);
 }
 
 void BoundingObjectManager::RenderSetting(bool visible)
 {
 	for (int i = 0; i < boundingObjList.size(); i++)
 	{
-		boundingObjList[i].SetVisibility(visible);
+		boundingObjList[i]->SetVisibility(visible);
 	}
 }
 void BoundingObjectManager::RenderSetting(bool visible, int bo)
 {
-	boundingObjList[bo].SetVisibility(visible);
+	boundingObjList[bo]->SetVisibility(visible);
 }
-
+void BoundingObjectManager::CheckCollisions()
+{
+	for (int i = 0; i < boundingObjList.size(); i++)
+	{
+		for (int j = 0; j < boundingObjList.size(); j++)
+		{
+			if (i != j)
+			{
+				if (boundingObjList[i]->IsColliding(boundingObjList[j]))
+				{
+					SetColor(i, RERED);
+					SetColor(j, RERED);
+				}
+				else
+				{
+					SetColor(i, REWHITE);
+					SetColor(j, REWHITE);
+				}
+			}
+		}
+	}
+}

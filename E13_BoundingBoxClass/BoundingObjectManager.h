@@ -8,7 +8,7 @@ class BoundingObjectManager
 	
 private:
 	BoundingObjectManager();
-	std::vector<BoundingObject> boundingObjList;
+	std::vector<BoundingObject*> boundingObjList;
 public:
 	static BoundingObjectManager* instance;
 	static BoundingObjectManager* GetInstance();
