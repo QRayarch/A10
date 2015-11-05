@@ -8,21 +8,22 @@ class BoundingObjectManager
 	
 private:
 	BoundingObjectManager();
-	std::vector<BoundingObject*> boundingObjList;
+	std::map<uint, BoundingObject*> boundingObjs;
+	int addIndex;
 public:
 	static BoundingObjectManager* instance;
 	static BoundingObjectManager* GetInstance();
 	static void Release();
-	void SetVisibility(int bo, bool visible);
-	void AddBox(std::vector<vector3>);
-	void SwitchBoxVisibility(int, bool);
+	void SetVisibility(uint, bool visible);
+	uint AddBox(std::vector<vector3>);
+	void SwitchBoxVisibility(uint, bool);
 	int GetBoundingObjNumber();
-	void SetColor(int, vector3);
+	void SetColor(uint, vector3);
 	void RenderSetting(bool);
 	void RenderSetting(bool, int);
 	void CheckCollisions();
 	void Draw();
-	void SetModelMatrix(int, matrix4);
+	void SetModelMatrix(uint, matrix4);
 
 	bool IsInBounds(int);
 };

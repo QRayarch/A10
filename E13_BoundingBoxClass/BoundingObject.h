@@ -14,6 +14,7 @@ private:
 
 	bool isVisible;
 	vector3 color;
+	matrix4 modelMatrix;
 public:
 	BoundingObject(std::vector<vector3>);
 	~BoundingObject();

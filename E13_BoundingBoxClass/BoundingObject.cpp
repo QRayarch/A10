@@ -3,6 +3,7 @@
 
 BoundingObject::BoundingObject(std::vector<vector3> vertices)
 {
+	modelMatrix = IDENTITY_M4;
 	sphere = new BoundingSphere(vertices);
 	ob = new MyBoundingBoxClass(vertices);
 	realign = new MyBoundingBoxClass(vertices);
@@ -43,6 +44,7 @@ void BoundingObject::Draw() {
 bool BoundingObject::IsColliding(BoundingObject* other) {
 	if (!other->sphere->IsColliding(sphere)) return false;
 	realign->RealignBox(ob);
+	other->realign->RealignBox(other->ob);
 	return other->realign->IsColliding(realign);
 }
 
@@ -61,12 +63,18 @@ vector3 BoundingObject::GetGlobalCenter() { return sphere->GetCenterGlobal(); }
 vector3 BoundingObject::GetMin() { return realign->GetMin(); }
 vector3 BoundingObject::GetMax() { return realign->GetMax(); }
 
-matrix4 BoundingObject::GetModelMatrix() { return realign->GetModelMatrix(); }
+matrix4 BoundingObject::GetModelMatrix() { 
+	return modelMatrix;
+}
 
 void BoundingObject::SetModelMatrix(matrix4 model)
 {
-	sphere->SetModelMatrix(model);
-	ob->SetModelMatrix(model);
+	if (model == modelMatrix) return;
+
+	modelMatrix = model;
+
+	sphere->SetModelMatrix(modelMatrix);
+	ob->SetModelMatrix(modelMatrix);
 
 	//Set new Radius 
 	sphere->SetRadius(glm::distance(realign->GetMax(), realign->GetCenterLocal()));

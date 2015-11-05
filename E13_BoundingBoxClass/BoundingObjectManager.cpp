@@ -3,7 +3,8 @@
 
 BoundingObjectManager::BoundingObjectManager()
 {
-	boundingObjList = std::vector<BoundingObject*>();
+	boundingObjs = std::map<uint, BoundingObject*>();
+	addIndex = 1;
 }
 
 BoundingObjectManager* BoundingObjectManager::GetInstance()
@@ -11,18 +12,21 @@ BoundingObjectManager* BoundingObjectManager::GetInstance()
 	if (instance == nullptr)
 	{
 		instance = new BoundingObjectManager();
-		std::cout << "Made camera" << std::endl;
 	}
 	return instance;
 }
 
-void BoundingObjectManager::AddBox(std::vector<vector3> verticies)
+uint BoundingObjectManager::AddBox(std::vector<vector3> verticies)
 {
-	boundingObjList.push_back(new BoundingObject(verticies));
+	BoundingObject* bo = new BoundingObject(verticies);
+	if (bo == nullptr) return 0;
+	boundingObjs[addIndex] = bo;
+	return addIndex++;
 }
 
 void BoundingObjectManager::Release()
 {
+	//TODO:REALSE MAP
 	if (instance != nullptr)
 	{
 		delete instance;
@@ -32,32 +36,32 @@ void BoundingObjectManager::Release()
 
 int BoundingObjectManager::GetBoundingObjNumber()
 {
-	return boundingObjList.size();
+	return boundingObjs.size();
 }
 
-void BoundingObjectManager::SetColor(int bo, vector3 color)
+void BoundingObjectManager::SetColor(uint id, vector3 color)
 {
-	if (!IsInBounds(bo)) return;
-	boundingObjList[bo]->SetColor(color);
+	if (!IsInBounds(id)) return;
+	boundingObjs[id]->SetColor(color);
 }
 
-void BoundingObjectManager::SwitchBoxVisibility(int bo, bool vis)
+void BoundingObjectManager::SwitchBoxVisibility(uint id, bool vis)
 {
-	if (!IsInBounds(bo)) return;
-	boundingObjList[bo]->SetAABBVisibility(vis);
+	if (!IsInBounds(id)) return;
+	boundingObjs[id]->SetAABBVisibility(vis);
 }
 
-void BoundingObjectManager::SetVisibility(int bo, bool visible)
+void BoundingObjectManager::SetVisibility(uint id, bool visible)
 {
-	if (!IsInBounds(bo)) return;
-	boundingObjList[bo]->SetVisibility(visible);
+	if (!IsInBounds(id)) return;
+	boundingObjs[id]->SetVisibility(visible);
 }
 
 void BoundingObjectManager::RenderSetting(bool visible)
 {
-	for (int i = 0; i < boundingObjList.size(); i++)
-	{
-		boundingObjList[i]->SetVisibility(visible);
+	std::map<uint, BoundingObject*>::iterator iterator;
+	for (iterator = boundingObjs.begin(); iterator != boundingObjs.end(); iterator++) {
+		boundingObjs[iterator->first]->SetVisibility(visible);
 	}
 }
 void BoundingObjectManager::RenderSetting(bool visible, int bo)
@@ -69,20 +73,17 @@ void BoundingObjectManager::CheckCollisions()
 {
 	for (int i = 0; i < boundingObjList.size(); i++)
 	{
-		for (int j = 0; j < boundingObjList.size(); j++)
+		for (int j = i + 1; j < boundingObjList.size(); j++)
 		{
-			if (i != j)
+			if (boundingObjList[i]->IsColliding(boundingObjList[j]))
 			{
-				if (boundingObjList[i]->IsColliding(boundingObjList[j]))
-				{
-					SetColor(i, RERED);
-					SetColor(j, RERED);
-				}
-				else
-				{
-					SetColor(i, REWHITE);
-					SetColor(j, REWHITE);
-				}
+				SetColor(i, RERED);
+				SetColor(j, RERED);
+			}
+			else
+			{
+				SetColor(i, REWHITE);
+				SetColor(j, REWHITE);
 			}
 		}
 	}
